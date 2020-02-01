@@ -9,13 +9,15 @@ import scrapy
 import json
 import logging
 import shutil
+import random
 from weipu_keyword_spider.settings import BASE_DATA_DIR, FILES_STORE
+from datetime import datetime
 
 
 class PDFPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         file_links = item["meta"]["download_links"]
-        yield scrapy.Request(file_links[0], meta={"fid": item["meta"]["fid"]})
+        yield scrapy.Request(random.choice(file_links), meta={"fid": item["meta"]["fid"]})
 
     def file_path(self, request, response=None, info=None):
         return request.meta["fid"] + ".pdf"
@@ -36,7 +38,10 @@ class JSONPipeline(object):
         # save json
         with open(item_dir + "/" + fid + ".json", "w") as jsonf:
             jsonf.write(json.dumps(item["meta"], ensure_ascii=False))
-        copy pdf
+        # copy pdf
         pdf_file_name = fid + ".pdf"
         shutil.move(FILES_STORE + "/" + pdf_file_name, item_dir + "/" + pdf_file_name)
+        # rename dir append time
+        curr_time = datetime.now().strftime("%Y%m%d%H%M%S")
+        shutil.move(item_dir, item_dir+"."+curr_time)
         return item

@@ -28,7 +28,6 @@ class WeipuSpider(RedisSpider):
 
     def parse(self, response):
         res = json.loads(response.text)
-        # print("+>>", res)
         if "message" not in res or res["message"] == "":
             logging.debug("=> Last page: " + response.url)
             return
@@ -69,11 +68,9 @@ class WeipuSpider(RedisSpider):
             page_contains.css(".detailtitle strong i *::text").getall()
         )
         author = response.xpath("//head/meta[@name='citation_author']/@content").getall()
-        print(author)
         date = response.xpath("//head/meta[@name='citation_date']/@content").get()
         issue = response.xpath("//head/meta[@name='citation_issue']/@content").get()
         volume = response.xpath("//head/meta[@name='citation_volume']/@content").get()
-        # abstract = self.strip_join(page_contains.xpath('//div[@class="detailinfo"]/table[contains(@class, "datainfo")][1]/tbody/tr[2]/td/text()').getall())
         abstract = self.strip_join(
             page_contains.xpath(
                 '//div[@class="detailinfo"]/table[contains(@class, "datainfo")][1]//td/text()'
@@ -96,7 +93,6 @@ class WeipuSpider(RedisSpider):
             "keywords": keywords,
             "url": response.url
         }
-        print(meta)
         yield scrapy.Request(
             url=links[0].url, callback=self.parse2, meta={"extra_meta": meta}
         )
