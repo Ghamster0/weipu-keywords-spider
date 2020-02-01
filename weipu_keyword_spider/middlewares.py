@@ -134,12 +134,15 @@ class RandomUserAgentMiddleware(UserAgentMiddleware):
 
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
-        proxy = random.choice(
-            [
-                "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.gd.ted:8080",
-                "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.zw.ted:8050",
-                "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.zw.ted:8070",
-            ]
-        )
+        if "is_pdf" in request.meta and request.meta["is_pdf"]:
+            proxy = "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.zw.ted:8050"
+        else:
+            proxy = random.choice(
+                [
+                    "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.gd.ted:8080",
+                    "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.zw.ted:8050",
+                    "http://220427-weipu_spider:weipu_spider@rsync.gateway01.proxy-center.zw.ted:8070",
+                ]
+            )
         request.meta["proxy"] = proxy
 

@@ -27,9 +27,9 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.1
+DOWNLOAD_DELAY = 0.02
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 1000
+CONCURRENT_REQUESTS_PER_DOMAIN = 5000
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -70,8 +70,8 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'weipu_keyword_spider.pipelines.JSONPipeline': 302,
-   'weipu_keyword_spider.pipelines.PDFPipeline': 301
-   # 'scrapy_redis.pipelines.RedisPipeline': 300
+   'weipu_keyword_spider.pipelines.PDFPipeline': 301,
+   'scrapy_redis.pipelines.RedisPipeline': 300
 }
 
 FILES_STORE = '/search/odin/data/weipu_data/pdfs'
