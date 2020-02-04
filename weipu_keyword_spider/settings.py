@@ -28,12 +28,14 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 0.02
+# DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 5000
+CONCURRENT_REQUESTS_PER_DOMAIN = 10000
 #CONCURRENT_REQUESTS_PER_IP = 16
+DOWNLOAD_TIMEOUT = 5
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -71,7 +73,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    'weipu_keyword_spider.pipelines.JSONPipeline': 302,
    'weipu_keyword_spider.pipelines.PDFPipeline': 301,
-   'scrapy_redis.pipelines.RedisPipeline': 300
+   # 'scrapy_redis.pipelines.RedisPipeline': 300
 }
 
 FILES_STORE = '/search/odin/data/weipu_data/pdfs'
@@ -98,7 +100,7 @@ FILES_STORE = '/search/odin/data/weipu_data/pdfs'
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 RETRY_ENABLED = True
-RETRY_TIMES = 20
+RETRY_TIMES = 10
 RETRY_HTTP_CODES = [500, 502, 503, 504, 400, 408, 429]
 
 

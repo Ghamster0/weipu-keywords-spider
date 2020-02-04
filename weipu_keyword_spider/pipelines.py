@@ -18,7 +18,7 @@ class PDFPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         file_links = item["meta"]["download_links"]
         yield scrapy.Request(
-            random.choice(file_links), meta={"fid": item["meta"]["fid"], "is_pdf": True}
+            file_links[0], meta={"fid": item["meta"]["fid"], "is_pdf": True, "download_timeout": 30}
         )
 
     def file_path(self, request, response=None, info=None):
